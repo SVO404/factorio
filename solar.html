@@ -1,12 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>title</title>
-  </head>
-  <body>
-    <script>
-      // R = 0.168 * (MaxPanelOutput kW / AccumulatorCapacity kJ) * CycleDuration s * (Efficiency / 100)
-    </script>
-  </body>
+	<head>
+		<meta charset="utf-8">
+		<title>Factorio Solar/Battery Ratio</title>
+	</head>
+	<body>
+		<script>
+			// R = 0.168 * (MaxPanelOutput kW / AccumulatorCapacity kJ) * CycleDuration s * (Efficiency / 100)
+			function f() {
+				const MaxPanelOutput = document.getElementById('MaxPanelOutput').valueAsNumber;
+				const AccumulatorCapacity = document.getElementById('AccumulatorCapacity').valueAsNumber;
+				const CycleDuration = document.getElementById('CycleDuration').valueAsNumber;
+				const Efficiency = document.getElementById('Efficiency').valueAsNumber;
+
+				document.getElementById('ratio').innerHTML = calc(MaxPanelOutput, AccumulatorCapacity, CycleDuration, Efficiency);
+			}
+
+			function calc(MaxPanelOutput, AccumulatorCapacity, CycleDuration, Efficiency) {
+				return 0.168 * (MaxPanelOutput / (AccumulatorCapacity * 1000) * CycleDuration * 60 * (Efficiency / 100));
+			}
+		</script>
+		<form>
+			<label for="MaxPanelOutput">MaxPanelOutput (kW):</label><input placeholder="MaxPanelOutput" name="MaxPanelOutput" id="MaxPanelOutput" type="number" value="60" />
+			<br />
+			<label for="AccumulatorCapacity">AccumulatorCapacity (MJ):</label><input placeholder="AccumulatorCapacity" name="AccumulatorCapacity" id="AccumulatorCapacity" value="5" />
+			<br />
+			<label for="CycleDuration">CycleDuration (Min):</label><input placeholder="CycleDuration" name="CycleDuration" id="CycleDuration" value="6.94" />
+			<br />
+			<label for="Efficiency">Efficiency (%):</label><input placeholder="Efficiency" name="Efficiency" id="Efficiency" value="100" />
+			<br />
+			<button>Calculate</button>
+		</form>
+		<div>Ratio: <span id="ratio"></span></div>
+	</body>
 </html>
